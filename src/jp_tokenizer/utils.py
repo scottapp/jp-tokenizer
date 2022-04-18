@@ -8,5 +8,4 @@ def read_words_from_csv(filename):
         cols = line.split(',')
         if cols:
             words.append(cols)
-
     return words
