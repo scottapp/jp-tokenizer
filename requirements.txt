@@ -1,3 +1,4 @@
 pytest
 fugashi
 unidic-lite
+jaconv

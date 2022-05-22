@@ -1,5 +1,5 @@
 import fugashi
-
+from jp_tokenizer.core import convert_furigana
 
 if __name__ == '__main__':
     # This is our sample text.
@@ -13,6 +13,4 @@ if __name__ == '__main__':
     print(*words)
     # => 麩 菓子 は 、 麩 を 主材 料 と し た 日本 の 菓子 。
 
-    words = tagger(text)
-    for word in words:
-        print(word)
+    convert_furigana(tagger, text)

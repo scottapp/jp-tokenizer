@@ -1,4 +1,17 @@
 import fugashi
+import jaconv
+
+
+def convert_furigana(tagger, text):
+    words = tagger(text)
+    for word in words:
+        """
+        if word.feature.pos1 in ['名詞']:
+            print(word, word.feature.pos1, jaconv.kata2hira(word.feature.kana))
+        """
+        hira = jaconv.kata2hira(word.feature.kana)
+        if word.feature.kana != '' and hira != word.surface:
+            print(word.surface, word.feature.pos1, jaconv.kata2hira(word.feature.kana))
 
 
 def get_i_adjectives(word_list):
