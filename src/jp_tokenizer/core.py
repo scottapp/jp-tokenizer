@@ -4,14 +4,22 @@ import jaconv
 
 def convert_furigana(tagger, text):
     words = tagger(text)
+    output = list()
     for word in words:
         """
         if word.feature.pos1 in ['名詞']:
             print(word, word.feature.pos1, jaconv.kata2hira(word.feature.kana))
         """
+        word_dict = dict()
+        word_dict['surface'] = word.surface
+
         hira = jaconv.kata2hira(word.feature.kana)
         if word.feature.kana != '' and hira != word.surface:
+            word_dict['type'] = word.feature.pos1
+            word_dict['furi'] = jaconv.kata2hira(word.feature.kana)
             print(word.surface, word.feature.pos1, jaconv.kata2hira(word.feature.kana))
+        output.append(word_dict)
+    return output
 
 
 def get_i_adjectives(word_list):

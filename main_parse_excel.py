@@ -119,5 +119,8 @@ def main():
 
 if __name__ == '__main__':
 
+    df = pd.read_pickle('data/compound_verbs.pkl')
+    print(df.head())
+
     #output_verb_groups()
-    main()
+    #main()
