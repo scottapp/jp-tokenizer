@@ -10,6 +10,9 @@ def convert_furigana(tagger, text):
         if word.feature.pos1 in ['名詞']:
             print(word, word.feature.pos1, jaconv.kata2hira(word.feature.kana))
         """
+        if not word.feature.kana:
+            continue
+
         word_dict = dict()
         word_dict['surface'] = word.surface
 
