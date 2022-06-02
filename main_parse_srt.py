@@ -210,10 +210,13 @@ if __name__ == '__main__':
             else:
                 vocab = item['surface']
             if vocab in n1:
+                item['side_b'] = n1[vocab]['side_b']
                 n1_vocabs[vocab] = item
             if vocab in n2:
+                item['side_b'] = n2[vocab]['side_b']
                 n2_vocabs[vocab] = item
             if vocab in n3:
+                item['side_b'] = n3[vocab]['side_b']
                 n3_vocabs[vocab] = item
 
             tmp.append(item['surface'])
