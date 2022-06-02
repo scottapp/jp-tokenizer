@@ -14,7 +14,10 @@ def convert_furigana(tagger, text):
         word_dict['surface'] = word.surface
         output.append(word_dict)
 
-        if word.feature.goshu == '記号':
+        if word.feature.goshu == '記号' or word.feature.pos1 == '代名詞' or word.feature.pos2 == '固有名詞':
+            continue
+
+        if word.feature.pos1 == '接尾辞' or word.feature.pos2 == '数詞':
             continue
 
         if not word.feature.kana:
@@ -22,10 +25,15 @@ def convert_furigana(tagger, text):
 
         hira = jaconv.kata2hira(word.feature.kana)
         if word.feature.kana != '' and hira != word.surface:
-            word_dict['type'] = word.feature.pos1
             word_dict['furi'] = jaconv.kata2hira(word.feature.kana)
             word_dict['orthBase'] = word.feature.orthBase
-            #print(word.surface, word.feature.pos1, jaconv.kata2hira(word.feature.kana))
+            word_dict['hiraBase'] = jaconv.kata2hira(word.feature.kanaBase)
+            # '五段-ラ行'
+            word_dict['cType'] = word.feature.cType
+            # '動詞'
+            word_dict['pos1'] = word.feature.pos1
+            # '普通名詞', '一般'
+            word_dict['pos2'] = word.feature.pos2
 
     return output
 
