@@ -1,5 +1,7 @@
+import os
 import json
 import pandas as pd
+import pickle
 import fugashi
 from jp_tokenizer.core import convert_furigana
 
@@ -190,7 +192,41 @@ def get_compound_verbs_tables():
     return n1, n2, n3
 
 
+def load_dictionary(dir):
+    output_map = {}
+    files = os.listdir(dir)
+
+    result = list()
+    for file in files:
+        if file.startswith('term'):
+            with open('data/jmdict/%s'%file, 'r', encoding='utf8') as f:
+                data = f.read()
+                #d = json.loads(data.decode("utf-8"))
+                d = json.loads(data)
+                result.extend(d)
+
+    for entry in result:
+        if entry[0] in output_map:
+            output_map[entry[0]].append(entry)
+        else:
+            # Using headword as key for finding the dictionary entry
+            output_map[entry[0]] = [entry]
+    return output_map
+
+
 if __name__ == '__main__':
+
+    """
+    d = load_dictionary('data/jmdict')
+    with open('test.pkl', 'wb') as handle:
+        pickle.dump(d, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    print(len(d))
+    """
+    with open('test.pkl', 'rb') as handle:
+        b = pickle.load(handle)
+
+    print(len(b))
+    assert False
 
     n1, n2, n3 = get_compound_verbs_tables()
 
