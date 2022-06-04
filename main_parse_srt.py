@@ -214,19 +214,15 @@ def load_dictionary(dir):
     return output_map
 
 
-if __name__ == '__main__':
-
-    """
+def convert_dict():
     d = load_dictionary('data/jmdict')
-    with open('test.pkl', 'wb') as handle:
+    with open('data/jmdict.pkl', 'wb') as handle:
         pickle.dump(d, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    print(len(d))
-    """
-    with open('test.pkl', 'rb') as handle:
-        b = pickle.load(handle)
 
-    print(len(b))
-    assert False
+
+if __name__ == '__main__':
+    with open('data/jmdict.pkl', 'rb') as handle:
+        jmdict = pickle.load(handle)
 
     n1, n2, n3 = get_compound_verbs_tables()
 
@@ -241,19 +237,33 @@ if __name__ == '__main__':
         tmp = list()
         for item in converted:
             vocab = None
+
             if item.get('orthBase', None):
                 vocab = item['orthBase']
             else:
                 vocab = item['surface']
+
             if vocab in n1:
                 item['side_b'] = n1[vocab]['side_b']
                 n1_vocabs[vocab] = item
-            if vocab in n2:
+            elif vocab in n2:
                 item['side_b'] = n2[vocab]['side_b']
                 n2_vocabs[vocab] = item
-            if vocab in n3:
+            elif vocab in n3:
                 item['side_b'] = n3[vocab]['side_b']
                 n3_vocabs[vocab] = item
+            elif 'cType' in item or 'pos1' in item:
+                info = jmdict.get(vocab, None)
+                try:
+                    if info:
+                        item['side_b'] = info[0][5][0]
+                    else:
+                        item['side_b'] = "meaning unknown"
+                except Exception as ex:
+                    print(ex)
+                    print(vocab)
+                    print(info)
+                    assert False
 
             tmp.append(item['surface'])
             furi = item.get('furi', None)
