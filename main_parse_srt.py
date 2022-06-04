@@ -221,6 +221,7 @@ def convert_dict():
 
 
 if __name__ == '__main__':
+
     with open('data/jmdict.pkl', 'rb') as handle:
         jmdict = pickle.load(handle)
 
@@ -254,14 +255,17 @@ if __name__ == '__main__':
                 n3_vocabs[vocab] = item
             elif 'cType' in item or 'pos1' in item:
                 info = jmdict.get(vocab, None)
+                if not info and item.get('lemma', None):
+                    info = jmdict.get(item['lemma'], None)
                 try:
                     if info:
                         item['side_b'] = info[0][5][0]
                     else:
-                        item['side_b'] = "meaning unknown"
+                        item['side_b'] = "{}, unknown".format(item.get('lemma', ''))
                 except Exception as ex:
                     print(ex)
                     print(vocab)
+                    print(item)
                     print(info)
                     assert False
 
@@ -270,7 +274,6 @@ if __name__ == '__main__':
             if furi:
                 tmp.append('<ruby>{}</ruby>'.format(furi))
 
-        #print(tmp)
         print(converted)
         content.append(converted)
 
