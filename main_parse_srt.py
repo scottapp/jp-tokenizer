@@ -152,11 +152,24 @@ def convert_dict():
         pickle.dump(d, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+def parse_text():
+    text = """
+    """
+    lines = list()
+    tmp = text.split("\n")
+    for line in tmp:
+        line = line.strip()
+        if line:
+            lines.append(line)
+    return lines
+
+
 if __name__ == '__main__':
-    lines = parse_srt_file()
+    lines = parse_text()
+    #lines = parse_srt_file()
     output = convert_jp_text(lines)
     print(len(output['content']))
     """
-    with open('data/content.json', 'w', encoding='utf8') as f:
+    with open('data/content_01.json', 'w', encoding='utf8') as f:
         f.write(json.dumps(output, indent=2, ensure_ascii=False))
     """
