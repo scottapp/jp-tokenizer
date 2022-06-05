@@ -5,7 +5,7 @@ from jp_tokenizer.core import convert_furigana
 
 
 def parse_srt_file():
-    with open('data/srt/半沢直樹２nd＃01.srt', 'r', encoding='utf-8-sig') as f:
+    with open('data/srt/test.srt', 'r', encoding='utf-8-sig') as f:
         lines = f.readlines()
 
     new_block = True
